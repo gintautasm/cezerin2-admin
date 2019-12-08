@@ -40,6 +40,13 @@ function receiveEmailSettings(emailSettings) {
 	};
 }
 
+function receiveImportSettings(importSettings) {
+	return {
+		type: t.IMPORT_SETTINGS_RECEIVE,
+		importSettings
+	};
+}
+
 function receiveEmailTemplate(emailTemplate) {
 	return {
 		type: t.EMAIL_TEMPLATE_RECEIVE,
@@ -196,6 +203,17 @@ export function fetchEmailSettings() {
 	};
 }
 
+export function fetchImportSettings() {
+	return (dispatch, getState) => {
+		return api.settings
+			.retrieveImportSettings()
+			.then(({ status, json }) => {
+				dispatch(receiveImportSettings(json));
+			})
+			.catch(error => {});
+	};
+}
+
 export function deleteLogo() {
 	return (dispatch, getState) => {
 		return api.settings
@@ -232,6 +250,17 @@ export function updateEmailSettings(emailSettings) {
 			.updateEmailSettings(emailSettings)
 			.then(({ status, json }) => {
 				dispatch(receiveEmailSettings(json));
+			})
+			.catch(error => {});
+	};
+}
+
+export function updateImportSettings(importSettings) {
+	return (dispatch, getState) => {
+		return api.settings
+			.updateImportSettings(importSettings)
+			.then(({ status, json }) => {
+				dispatch(receiveImportSettings(json));
 			})
 			.catch(error => {});
 	};
@@ -435,6 +464,7 @@ export function createToken(token) {
 		return api.tokens
 			.create(token)
 			.then(({ status, json }) => {
+				//console.log(json);
 				dispatch(fetchTokens());
 				dispatch(receiveNewToken(json.token));
 			})
@@ -527,58 +557,53 @@ export function updateThemeSettings(settings) {
 }
 
 export function fetchRedirects() {
-	return (dispatch, getState) => {
-		return api.redirects
+	return (dispatch, getState) =>
+		api.redirects
 			.list()
 			.then(({ status, json }) => {
 				dispatch(receiveRedirects(json));
 			})
 			.catch(error => {});
-	};
 }
 
 export function fetchRedirect(id) {
-	return (dispatch, getState) => {
-		return api.redirects
+	return (dispatch, getState) =>
+		api.redirects
 			.retrieve(id)
 			.then(({ status, json }) => {
 				dispatch(receiveRedirect(json));
 			})
 			.catch(error => {});
-	};
 }
 
 export function createRedirect(redirect) {
-	return (dispatch, getState) => {
-		return api.redirects
+	return (dispatch, getState) =>
+		api.redirects
 			.create(redirect)
 			.then(({ status, json }) => {
 				dispatch(fetchRedirects());
 			})
 			.catch(error => {});
-	};
 }
 
 export function updateRedirect(redirect) {
-	return (dispatch, getState) => {
-		return api.redirects
+	return (dispatch, getState) =>
+		api.redirects
 			.update(redirect.id, redirect)
 			.then(({ status, json }) => {
 				dispatch(fetchRedirects());
 			})
 			.catch(error => {});
-	};
 }
 
 export function deleteRedirect(redirectId) {
-	return (dispatch, getState) => {
-		return api.redirects
+	return (dispatch, getState) =>
+		api.redirects
 			.delete(redirectId)
 			.then(({ status, json }) => {
 				dispatch(fetchRedirects());
 			})
 			.catch(error => {});
-	};
 }
 
 export function fetchWebhooks() {

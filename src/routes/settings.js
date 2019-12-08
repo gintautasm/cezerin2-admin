@@ -15,6 +15,8 @@ import PaymentsEdit from 'modules/settings/paymentsEdit';
 import Tokens from 'modules/settings/tokens/list';
 import TokensEdit from 'modules/settings/tokens/edit';
 import Email from 'modules/settings/email';
+import Import from 'modules/settings/import';
+import GoogleSpredsheet from 'modules/settings/googlespreadsheet';
 import Smtp from 'modules/settings/smtp';
 import EmailTemplate from 'modules/settings/emailTemplates';
 import Checkout from 'modules/settings/checkout';
@@ -42,7 +44,7 @@ const SettingsMenu = () => (
 			style={styles.link}
 			activeStyle={styles.linkActive}
 			to="/settings"
-			exact={true}
+			exact
 		>
 			<ListItem
 				primaryText={messages.settings_general}
@@ -104,6 +106,17 @@ const SettingsMenu = () => (
 		<NavLink
 			style={styles.link}
 			activeStyle={styles.linkActive}
+			to="/settings/import"
+			exact={true}
+		>
+			<ListItem
+				primaryText={messages.drawer_importing}
+				leftIcon={<FontIcon className="material-icons">get_app</FontIcon>}
+			/>
+		</NavLink>
+		<NavLink
+			style={styles.link}
+			activeStyle={styles.linkActive}
 			to="/settings/redirects"
 		>
 			<ListItem
@@ -136,57 +149,54 @@ const SettingsMenu = () => (
 	</List>
 );
 
-const Settings = ({ match }) => {
-	return (
-		<div className="row row--no-gutter col-full-height">
-			<div className="col-xs-12 col-sm-4 col-md-3 col--no-gutter scroll col-full-height">
-				<SettingsMenu />
-			</div>
-			<div className="col-xs-12 col-sm-8 col-md-9 col--no-gutter scroll col-full-height">
-				<Switch>
-					<Route path="/settings" exact component={General} />
-					<Route path="/settings/general/logo" component={GeneralLogo} />
-					<Route path="/settings/theme" component={Theme} />
-					<Route path="/settings/shipping" exact component={Shipping} />
-					<Route path="/settings/shipping/add" exact component={ShippingEdit} />
-					<Route path="/settings/shipping/:methodId" component={ShippingEdit} />
-					<Route path="/settings/payments" exact component={Payments} />
-					<Route path="/settings/payments/add" exact component={PaymentsEdit} />
-					<Route path="/settings/payments/:methodId" component={PaymentsEdit} />
-					<Route path="/settings/tokens" exact component={Tokens} />
-					<Route path="/settings/tokens/add" exact component={TokensEdit} />
-					<Route path="/settings/tokens/:tokenId" component={TokensEdit} />
-					<Route path="/settings/email" exact component={Email} />
-					<Route path="/settings/email/smtp" component={Smtp} />
-					<Route
-						path="/settings/email/templates/:templateName"
-						component={EmailTemplate}
-					/>
-					<Route path="/settings/checkout" exact component={Checkout} />
-					<Route
-						path="/settings/checkout/fields/:fieldName"
-						component={CheckoutFields}
-					/>
-					<Route path="/settings/redirects" exact component={Redirects} />
-					<Route
-						path="/settings/redirects/add"
-						exact
-						component={RedirectsEdit}
-					/>
-					<Route
-						path="/settings/redirects/:redirectId"
-						component={RedirectsEdit}
-					/>
-					<Route path="/settings/webhooks" exact component={Webhooks} />
-					<Route path="/settings/webhooks/add" exact component={WebhooksEdit} />
-					<Route
-						path="/settings/webhooks/:webhookId"
-						component={WebhooksEdit}
-					/>
-				</Switch>
-			</div>
+const Settings = ({ match }) => (
+	<div className="row row--no-gutter col-full-height">
+		<div className="col-xs-12 col-sm-4 col-md-3 col--no-gutter scroll col-full-height">
+			<SettingsMenu />
 		</div>
-	);
-};
+		<div className="col-xs-12 col-sm-8 col-md-9 col--no-gutter scroll col-full-height">
+			<Switch>
+				<Route path="/settings" exact component={General} />
+				<Route path="/settings/general/logo" component={GeneralLogo} />
+				<Route path="/settings/theme" component={Theme} />
+				<Route path="/settings/shipping" exact component={Shipping} />
+				<Route path="/settings/shipping/add" exact component={ShippingEdit} />
+				<Route path="/settings/shipping/:methodId" component={ShippingEdit} />
+				<Route path="/settings/payments" exact component={Payments} />
+				<Route path="/settings/payments/add" exact component={PaymentsEdit} />
+				<Route path="/settings/payments/:methodId" component={PaymentsEdit} />
+				<Route path="/settings/tokens" exact component={Tokens} />
+				<Route path="/settings/tokens/add" exact component={TokensEdit} />
+				<Route path="/settings/tokens/:tokenId" component={TokensEdit} />
+				<Route path="/settings/email" exact component={Email} />
+				<Route path="/settings/email/smtp" component={Smtp} />
+				<Route
+					path="/settings/email/templates/:templateName"
+					component={EmailTemplate}
+				/>
+				<Route path="/settings/import" exact component={Import} />
+				<Route
+					path="/settings/import/googlespreadsheet"
+					exact
+					component={GoogleSpredsheet}
+				/>
+				<Route path="/settings/checkout" exact component={Checkout} />
+				<Route
+					path="/settings/checkout/fields/:fieldName"
+					component={CheckoutFields}
+				/>
+				<Route path="/settings/redirects" exact component={Redirects} />
+				<Route path="/settings/redirects/add" exact component={RedirectsEdit} />
+				<Route
+					path="/settings/redirects/:redirectId"
+					component={RedirectsEdit}
+				/>
+				<Route path="/settings/webhooks" exact component={Webhooks} />
+				<Route path="/settings/webhooks/add" exact component={WebhooksEdit} />
+				<Route path="/settings/webhooks/:webhookId" component={WebhooksEdit} />
+			</Switch>
+		</div>
+	</div>
+);
 
 export default Settings;

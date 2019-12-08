@@ -76,17 +76,43 @@ export default class Categories extends React.Component {
 			return allItems
 				.filter(item => item.parent_id === id)
 				.map(item => this.getItem(selectedId, allItems, item, opened));
-		} else {
-			return [];
 		}
+		return [];
 	}
 
 	handleClickAll = () => {
 		this.props.onSelect('all');
+		document.getElementsByClassName('product-list')[0].style.display = 'block';
+		if (
+			document.getElementsByClassName('spread-sheet-container')[0] !== undefined
+		) {
+			document.getElementsByClassName(
+				'spread-sheet-container'
+			)[0].style.display = 'none';
+		}
 	};
 
 	handleClickRoot = () => {
 		this.props.onSelect('root');
+		document.getElementsByClassName('product-list')[0].style.display = 'block';
+		if (
+			document.getElementsByClassName('spread-sheet-container')[0] !== undefined
+		) {
+			document.getElementsByClassName(
+				'spread-sheet-container'
+			)[0].style.display = 'none';
+		}
+	};
+
+	handleClickImport = () => {
+		document.getElementsByClassName('product-list')[0].style.display = 'none';
+		if (
+			document.getElementsByClassName('spread-sheet-container')[0] !== undefined
+		) {
+			document.getElementsByClassName(
+				'spread-sheet-container'
+			)[0].style.display = 'block';
+		}
 	};
 
 	render() {
@@ -96,12 +122,13 @@ export default class Categories extends React.Component {
 			showAll = false,
 			showRoot = false,
 			showManage = false,
+			showImport = true,
 			rootName = messages.productCategories_root,
 			allName = messages.productCategories_all,
 			opened = false
 		} = this.props;
 
-		var rows = items
+		const rows = items
 			.filter(item => item.parent_id === null)
 			.map(item => this.getItem(selectedId, items, item, opened));
 
@@ -110,7 +137,7 @@ export default class Categories extends React.Component {
 				{showRoot && (
 					<ListItem
 						primaryText={rootName}
-						style={'root' === selectedId ? styles.selectedItem : null}
+						style={selectedId === 'root' ? styles.selectedItem : null}
 						innerDivStyle={styles.innerItem}
 						leftIcon={<FontIcon className="material-icons">home</FontIcon>}
 						onClick={this.handleClickRoot}
@@ -121,7 +148,7 @@ export default class Categories extends React.Component {
 					<ListItem
 						className="treeItem"
 						primaryText={allName}
-						style={'all' === selectedId ? styles.selectedItem : null}
+						style={selectedId === 'all' ? styles.selectedItem : null}
 						innerDivStyle={styles.innerItem}
 						leftIcon={<FontIcon className="material-icons">folder</FontIcon>}
 						onClick={this.handleClickAll}
@@ -139,6 +166,18 @@ export default class Categories extends React.Component {
 							leftIcon={
 								<FontIcon className="material-icons">settings</FontIcon>
 							}
+						/>
+					</Link>
+				)}
+
+				{showImport && (
+					<Link to="/products/import" style={{ textDecoration: 'none' }}>
+						<ListItem
+							className="treeItem"
+							primaryText={messages.drawer_importing}
+							innerDivStyle={styles.innerItem}
+							leftIcon={<FontIcon className="material-icons">get_app</FontIcon>}
+							onClick={this.handleClickImport}
 						/>
 					</Link>
 				)}

@@ -24,11 +24,11 @@ import WebhooksListHead from 'modules/settings/webhooks/list/head';
 import WebhooksEditHead from 'modules/settings/webhooks/edit/head';
 import AppsHead from 'modules/apps/head';
 import FileListHead from 'modules/files/list/head';
-import DrawerMenu from './drawer';
 
 import FontIcon from 'material-ui/FontIcon';
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
+import DrawerMenu from './drawer';
 
 export default class AppBarTop extends React.Component {
 	constructor(props) {
@@ -37,6 +37,7 @@ export default class AppBarTop extends React.Component {
 	}
 
 	handleToggle = () => this.setState({ open: !this.state.open });
+
 	handleClose = () => this.setState({ open: false });
 
 	render() {
@@ -50,7 +51,7 @@ export default class AppBarTop extends React.Component {
 			orderStatusName,
 			orderNumber
 		} = this.props;
-		const pathname = location.pathname;
+		const { pathname } = location;
 
 		if (pathname === '/login' || pathname === '/logout') {
 			return null;
@@ -74,6 +75,31 @@ export default class AppBarTop extends React.Component {
 				title = (
 					<span>
 						{messages.products_title}
+						<FontIcon
+							style={{ top: 6 }}
+							color="#fff"
+							className="material-icons"
+						>
+							chevron_right
+						</FontIcon>
+						{productCategoryName}
+					</span>
+				);
+			}
+
+			if (productsSelectedCount > 0) {
+				title = `${productsSelectedCount} ${messages.selected}`;
+			}
+
+			rightElements = <ProductsHead />;
+		}
+		if (pathname === '/products/import') {
+			title = messages.drawer_importing;
+
+			if (productCategoryName) {
+				title = (
+					<span>
+						{messages.drawer_importing}
 						<FontIcon
 							style={{ top: 6 }}
 							color="#fff"
@@ -285,6 +311,8 @@ export default class AppBarTop extends React.Component {
 			title = messages.settings_themeSettings;
 		} else if (pathname === '/settings/checkout') {
 			title = messages.settings_checkoutSettings;
+		} else if (pathname === '/settings/import') {
+			title = messages.drawer_importing;
 		} else if (pathname === '/settings/checkout/fields/email') {
 			title = messages.email;
 			leftButton = (
